@@ -5,7 +5,7 @@ import sootup.core.jimple.common.expr.AbstractInvokeExpr;
 import sootup.core.jimple.common.stmt.JInvokeStmt;
 import sootup.core.jimple.common.stmt.Stmt;
 import sootup.core.signatures.MethodSignature;
-import sootup.java.bytecode.inputlocation.JavaClassPathAnalysisInputLocation;
+import sootup.java.bytecode.frontend.inputlocation.JavaClassPathAnalysisInputLocation;
 import sootup.java.core.JavaSootMethod;
 import sootup.java.core.types.JavaClassType;
 import sootup.java.core.views.JavaView;
@@ -52,9 +52,9 @@ public class Demo {
                 // Check for invoking statements (e.g. method calls)
                 if (stmt instanceof JInvokeStmt) {
                     JInvokeStmt invoke = (JInvokeStmt) stmt;
-                    AbstractInvokeExpr invokeExpr = invoke.getInvokeExpr();
+                    Optional<AbstractInvokeExpr> invokeExpr = invoke.getInvokeExpr();
                     // Print the first argument passed to the method call
-                    System.out.println(invokeExpr.getArg(0));
+                    System.out.println(invokeExpr.get().getArg(0));
                 }
             }
         } else {

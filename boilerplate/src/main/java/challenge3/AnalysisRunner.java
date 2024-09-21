@@ -1,9 +1,6 @@
 package challenge3;
 
 import heros.InterproceduralCFG;
-
-import java.util.*;
-
 import sootup.analysis.interprocedural.icfg.JimpleBasedInterproceduralCFG;
 import sootup.analysis.interprocedural.ifds.JimpleIFDSSolver;
 import sootup.core.inputlocation.AnalysisInputLocation;
@@ -15,11 +12,12 @@ import sootup.core.model.SootClass;
 import sootup.core.model.SootMethod;
 import sootup.core.model.SourceType;
 import sootup.core.signatures.MethodSignature;
-import sootup.java.bytecode.inputlocation.DefaultRTJarAnalysisInputLocation;
-import sootup.java.bytecode.inputlocation.JavaClassPathAnalysisInputLocation;
+import sootup.java.bytecode.frontend.inputlocation.JavaClassPathAnalysisInputLocation;
 import sootup.java.core.JavaIdentifierFactory;
 import sootup.java.core.types.JavaClassType;
 import sootup.java.core.views.JavaView;
+
+import java.util.*;
 
 public class AnalysisRunner {
 
@@ -43,7 +41,7 @@ public class AnalysisRunner {
     private void runAnalysis() {
 
         JimpleBasedInterproceduralCFG icfg =
-                new JimpleBasedInterproceduralCFG(view, entryMethodSignature, false, false);
+                new JimpleBasedInterproceduralCFG(view, Collections.singletonList(entryMethodSignature), false, false);
         TaintAnalysisProblem problem = new TaintAnalysisProblem(icfg, entryMethod);
         JimpleIFDSSolver<?, InterproceduralCFG<Stmt, SootMethod>> solver =
                 new JimpleIFDSSolver(problem);

@@ -1,14 +1,11 @@
 package challenge1;
 
 import sootup.core.inputlocation.AnalysisInputLocation;
-import sootup.core.jimple.common.expr.AbstractInvokeExpr;
 import sootup.core.jimple.common.stmt.JAssignStmt;
-import sootup.core.jimple.common.stmt.JInvokeStmt;
 import sootup.core.jimple.common.stmt.Stmt;
-import sootup.core.model.MethodModifier;
 import sootup.core.signatures.MethodSignature;
 import sootup.core.types.Type;
-import sootup.java.bytecode.inputlocation.JavaClassPathAnalysisInputLocation;
+import sootup.java.bytecode.frontend.inputlocation.JavaClassPathAnalysisInputLocation;
 import sootup.java.core.JavaSootClass;
 import sootup.java.core.JavaSootField;
 import sootup.java.core.JavaSootMethod;
@@ -16,6 +13,7 @@ import sootup.java.core.types.JavaClassType;
 import sootup.java.core.views.JavaView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Challenge1 {
 
@@ -30,7 +28,7 @@ public class Challenge1 {
         AnalysisInputLocation inputLocation = new JavaClassPathAnalysisInputLocation(pathToBinary);
         JavaView view = new JavaView(inputLocation);
 
-        Collection<JavaSootClass> allClasses = view.getClasses();
+        Collection<JavaSootClass> allClasses = view.getClasses().collect(Collectors.toList());
         for(JavaSootClass javaSootClass: allClasses) {
             Set<JavaSootMethod> allmethods_inclass = javaSootClass.getMethods();
             number_of_methods += allmethods_inclass.size();

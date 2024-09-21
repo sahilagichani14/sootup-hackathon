@@ -6,10 +6,7 @@ import heros.FlowFunctions;
 import heros.InterproceduralCFG;
 import heros.flowfunc.Gen;
 import heros.flowfunc.Identity;
-import heros.flowfunc.Kill;
 import heros.flowfunc.KillAll;
-import java.util.*;
-
 import sootup.analysis.interprocedural.ifds.DefaultJimpleIFDSTabulationProblem;
 import sootup.core.jimple.basic.Immediate;
 import sootup.core.jimple.basic.Local;
@@ -20,11 +17,12 @@ import sootup.core.jimple.common.expr.JInterfaceInvokeExpr;
 import sootup.core.jimple.common.expr.JSpecialInvokeExpr;
 import sootup.core.jimple.common.expr.JVirtualInvokeExpr;
 import sootup.core.jimple.common.ref.JFieldRef;
-import sootup.core.jimple.common.ref.JInstanceFieldRef;
 import sootup.core.jimple.common.ref.JStaticFieldRef;
 import sootup.core.jimple.common.stmt.*;
 import sootup.core.model.SootMethod;
 import sootup.core.types.NullType;
+
+import java.util.*;
 
 public class TaintAnalysisProblem extends DefaultJimpleIFDSTabulationProblem<Value, InterproceduralCFG<Stmt, SootMethod>> {
 
@@ -125,9 +123,9 @@ public class TaintAnalysisProblem extends DefaultJimpleIFDSTabulationProblem<Val
             return KillAll.v();
         }
 
-        AbstractInvokeExpr ie = callStmt.getInvokeExpr();
+        Optional<AbstractInvokeExpr> ie = callStmt.asInvokableStmt().getInvokeExpr();
 
-        final List<Immediate> callArgs = ie.getArgs();
+        final List<Immediate> callArgs = ie.get().getArgs();
         final List<Value> paramLocals = new ArrayList<Value>();
         for (int i = 0; i < destinationMethod.getParameterCount(); i++) {
             paramLocals.add(destinationMethod.getBody().getParameterLocal(i));
@@ -154,7 +152,8 @@ public class TaintAnalysisProblem extends DefaultJimpleIFDSTabulationProblem<Val
     FlowFunction<Value> getReturnFlow(
             final Stmt callSite, final SootMethod calleeMethod, Stmt exitStmt, Stmt returnSite) {
 
-        AbstractInvokeExpr ie = callSite.getInvokeExpr();
+        Optional<AbstractInvokeExpr> ieo = callSite.asInvokableStmt().getInvokeExpr();
+        AbstractInvokeExpr ie = ieo.get();
 
         Value base = null;
         if (ie instanceof JVirtualInvokeExpr) {
@@ -219,7 +218,8 @@ public class TaintAnalysisProblem extends DefaultJimpleIFDSTabulationProblem<Val
     }
 
     FlowFunction<Value> getCallToReturnFlow(final Stmt callSite, Stmt returnSite) {
-        AbstractInvokeExpr ie = callSite.getInvokeExpr();
+        Optional<AbstractInvokeExpr> ieo = callSite.asInvokableStmt().getInvokeExpr();
+        AbstractInvokeExpr ie = ieo.get();
         final List<Immediate> callArgs = ie.getArgs();
 
         Value base = null;

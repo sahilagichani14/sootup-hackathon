@@ -6,7 +6,7 @@ import sootup.callgraph.RapidTypeAnalysisAlgorithm;
 import sootup.core.inputlocation.AnalysisInputLocation;
 import sootup.core.signatures.MethodSignature;
 import sootup.core.types.ClassType;
-import sootup.java.bytecode.inputlocation.JavaClassPathAnalysisInputLocation;
+import sootup.java.bytecode.frontend.inputlocation.JavaClassPathAnalysisInputLocation;
 import sootup.java.core.types.JavaClassType;
 import sootup.java.core.views.JavaView;
 
@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Challenge2 {
     public static void main(String[] args) {
-        String pathToBinary = "src/test/resources/example/challenge2.jar";
+        String pathToBinary = "src/test/resources/example/jcl-over-slf4j-2.0.7.jar";
         AnalysisInputLocation inputLocation = new JavaClassPathAnalysisInputLocation(pathToBinary);
         JavaView view = new JavaView(inputLocation);
         JavaClassType classType = view.getIdentifierFactory().getClassType("Main");
@@ -31,11 +31,11 @@ public class Challenge2 {
         Set<MethodSignature> rtaMethodSignatures = rtaCG.getMethodSignatures();
         Set<MethodSignature> uniqueMethodSignatures = chaMethodSignatures;
         uniqueMethodSignatures.removeAll(rtaMethodSignatures);
-        List<String> packagenames =new ArrayList<>();
+        List<String> packagenames = new ArrayList<>();
         for (MethodSignature uniqueMethodSignature : uniqueMethodSignatures) {
-            Set<MethodSignature> callingMethod = chaCG.callsTo(uniqueMethodSignature);
-            for (MethodSignature signature : callingMethod) {
-                ClassType callingMethodsignatureClass = signature.getDeclClassType();
+            Set<CallGraph.Call> callingMethod = chaCG.callsTo(uniqueMethodSignature);
+            for (CallGraph.Call signature : callingMethod) {
+                ClassType callingMethodsignatureClass = signature.getSourceMethodSignature().getDeclClassType();
                 String packageName = callingMethodsignatureClass.getPackageName().getName();
                 packagenames.add(packageName);
             }

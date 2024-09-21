@@ -20,42 +20,51 @@
         </plugins>
     </build>
 
+    <properties>
+        <sootup.version>1.3.1-SNAPSHOT</sootup.version>
+    </properties>
+
 
     <dependencies>
         <dependency>
             <groupId>org.soot-oss</groupId>
             <artifactId>sootup.core</artifactId>
-            <version>1.2.0</version>
+            <version>${sootup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.soot-oss</groupId>
             <artifactId>sootup.java.core</artifactId>
-            <version>1.2.0</version>
+            <version>${sootup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.soot-oss</groupId>
-            <artifactId>sootup.java.sourcecode</artifactId>
-            <version>1.2.0</version>
+            <artifactId>sootup.java.sourcecode.frontend</artifactId>
+            <version>${sootup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.soot-oss</groupId>
-            <artifactId>sootup.java.bytecode</artifactId>
-            <version>1.2.0</version>
+            <artifactId>sootup.java.bytecode.frontend</artifactId>
+            <version>${sootup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.soot-oss</groupId>
-            <artifactId>sootup.jimple.parser</artifactId>
-            <version>1.2.0</version>
+            <artifactId>sootup.jimple.frontend</artifactId>
+            <version>${sootup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.soot-oss</groupId>
             <artifactId>sootup.callgraph</artifactId>
-            <version>1.2.0</version>
+            <version>${sootup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.soot-oss</groupId>
-            <artifactId>sootup.analysis</artifactId>
-            <version>1.2.0</version>
+            <artifactId>sootup.analysis.intraprocedural</artifactId>
+            <version>${sootup.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.soot-oss</groupId>
+            <artifactId>sootup.analysis.interprocedural</artifactId>
+            <version>${sootup.version}</version>
         </dependency>
     </dependencies>
 
